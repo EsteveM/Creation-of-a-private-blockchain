@@ -34,7 +34,7 @@ class Blockchain{
   generateGenesisBlock() {
     let self = this;
     this.getBlockHeight().then(function(height) {
-      if (height === 0) {
+      if (height < 0) {
 
         // Block instance and block data
         let newBlock = new Block.Block("First block in the chain - Genesis block");
@@ -53,7 +53,7 @@ class Blockchain{
             console.log(`generateGenesisBlock: Error found when calling addDataToLevelDB: ${error}`);
           }
         );
-      } else if (height > 0) {
+      } else {
         console.log(`generateGenesisBlock: Error found because genesis block already exists. Current height is ${height}`);
       }
     }, function(error) {
@@ -66,7 +66,7 @@ class Blockchain{
     let self = this;
     return new Promise(function(resolve, reject) {
       self.bd.getBlocksCount().then(function(result) {
-            resolve(result);
+            resolve(result - 1);
         },function(error) {
             reject(error);
         }
@@ -81,7 +81,7 @@ class Blockchain{
     return new Promise(function(resolve, reject) {
       self.getBlockHeight().then(function(height) {
         // Check if a genesis block already exists. If not, create one before adding the new block
-        if (height === 0) {
+        if (height < 0) {
 
           // Block instance and block data
           let genesisBlock = new Block.Block("First block in the chain - Genesis block");
@@ -120,11 +120,11 @@ class Blockchain{
             }
           );
         // Genesis block already exists, so simply add newBlock
-        } else if (height > 0) {
-            self.getBlock(height - 1).then(function(previousBlock) {
+        } else {
+            self.getBlock(height).then(function(previousBlock) {
 
                 // Block height
-                newBlock.height = height;
+                newBlock.height = height + 1;
                 // UTC timestamp
                 newBlock.time = new Date().getTime().toString().slice(0,-3);
                 // previous block hash
@@ -227,7 +227,8 @@ class Blockchain{
     let self = this;
     return new Promise(function(resolve, reject) {
         let errorLog = [];
-        self.getBlockHeight().then(function(chainLength) {
+        self.getBlockHeight().then(function(chainHeight) {
+          let chainLength = chainHeight + 1;
           // For each block in the chain, block immutability and links between blocks are validated
             let arrayofPromises = [];
             for (var i = 0; i < chainLength; i++) {
