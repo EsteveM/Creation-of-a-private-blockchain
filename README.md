@@ -56,7 +56,7 @@ The purpose of this file is to test the project. The test cases covered are:
 The procedure to obtain functional a copy of the project on your local machine so that you can further develop and/or test it is explained in this section:
 
 * Firstly, you have to download the project files from this repository onto your local machine.
-* Secondly, you have to install Node.js® and NPM, which can be done from the (Node.js® site)[https://nodejs.org/en/].
+* Secondly, you have to install Node.js® and NPM, which can be done from the [Node.js® site](https://nodejs.org/en/).
 * Thirdly, you have to initialize the project by typing `npm init` on a terminal shell on your project main directory. Then, install crypto-js and level by typing `npm install crypto-js --save` and `npm install level --save`, respectively.
 * Once that has been done, you can test the project. The simpleChain.js file has been built for this very purpose, and executes a number of significant and representative test cases. You can execute this file in its current form or after modifying it to further test the application. To do that, just type `node simpleChain.js`.
 
